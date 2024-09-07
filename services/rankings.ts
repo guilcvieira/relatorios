@@ -1,4 +1,12 @@
 export const fetchRankingComentarios = async () => {
-    const rankingComentarios = await fetch('http://localhost:3000/api/ranking-comentarios')
-    return rankingComentarios
+    return new Promise((resolve, reject) => {
+        try {
+            const rankingComentarios = fetch('http://localhost:3000/api/ranking-comentarios')
+            setTimeout(() => {
+            resolve(rankingComentarios)
+            }   , 5000)
+        } catch (error) {
+            reject(error)
+        }
+    })
 }

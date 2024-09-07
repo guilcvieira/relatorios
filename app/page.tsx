@@ -1,17 +1,32 @@
 import ReportsBlock, { IReport } from "@/components/reports/reports-block";
-import { Cast, MessageSquare } from "lucide-react";
+import { Cast, ChartPie, MessageSquare, Users } from "lucide-react";
 import React from "react";
 
 const reports: IReport[] = [
   {
-    title: "Ranking dos Comentários",
+    title: "Desempenho dos Comunicados",
     type: "visao-geral",
-    icon: MessageSquare,
+    icon: ChartPie,
+  },
+  {
+    title: "Ranking dos Colaboradores",
+    type: "um-a-um",
+    icon: Users,
   },
   {
     title: "Ranking dos Comunicados",
     type: "um-a-um",
     icon: Cast,
+  },
+  {
+    title: "Ranking dos Comentários",
+    type: "um-a-um",
+    icon: MessageSquare,
+  },
+  {
+    title: "Ranking dos Comentários (resumo)",
+    type: "um-a-um",
+    icon: MessageSquare,
   }
 
 ]
@@ -19,7 +34,7 @@ const reports: IReport[] = [
 const Home: React.FC = () => {
   return (
     <div className="w-full container">
-      <ReportsBlock title="Comunicados" reports={reports} />
+      <ReportsBlock title="Comunicados" description="Dados e informações mais relevantes dos comunicados" reports={reports} />
     </div>
   )
 }

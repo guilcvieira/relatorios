@@ -52,16 +52,20 @@ export const DataRangePicker: React.FC<DataRangePickerProps> = ({ className, sel
                         className={cn("justify-start text-left font-normal", !date && "text-muted-foreground")}
                     >
                         <CalendarIcon className="h-4 w-4 mr-2" />
+                        {
+                            date && date?.from && <span className="font-semibold">Periodo - &nbsp;</span>
+                        }
+                        
                         {date && date?.from ? (
                             date.to ? (
                                 <>
-                                    {format(date.from, "PPP", { locale: ptBR })} - {format(date.to, "PPP", { locale: ptBR })}
+                                    {format(date.from, "dd/MM/yyyy", { locale: ptBR })} - {format(date.to, "dd/MM/yyyy", { locale: ptBR })}
                                 </>
                             ) : (
-                                format(date.from, "PPP", { locale: ptBR })
+                                format(date.from, "dd/MM/yyyy", { locale: ptBR })
                             )
                         ) : (
-                            <span>Selecione uma Data</span>
+                            <span className="font-semibold">Período</span>
                         )}
                     </Button>
                 </PopoverTrigger>

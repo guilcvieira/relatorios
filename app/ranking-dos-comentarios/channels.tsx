@@ -6,7 +6,15 @@ export const channels: Channel[] = [
         name: 'Mobile'
     },
     {
-        slug: 'DK',
+        slug: 'DE',
         name: 'Desktop'
+    },
+    {
+        slug: 'EM',
+        name: 'E-mail'
+    },
+    {
+        slug: 'TV',
+        name: 'TV'
     }
 ]

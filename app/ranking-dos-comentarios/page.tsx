@@ -6,11 +6,12 @@ import { fetchRankingComentarios } from '@/services/rankings'
 import { Channel, Comment } from '@/types'
 import { ChevronLeft } from 'lucide-react'
 import Link from 'next/link'
-import React from 'react'
+import React, { Suspense } from 'react'
 import { DateRange } from 'react-day-picker'
 import { DataTable } from '../../components/data-table'
 import { channels } from './channels'
 import { columns } from './columns'
+import Breadcrumb from '@/components/breadcrumb'
 
 const RankingComentarios: React.FC = () => {
     const [data, setData] = React.useState<Comment[]>([])
@@ -18,6 +19,8 @@ const RankingComentarios: React.FC = () => {
 
     const [selectedChannels, setSelectedChannels] = React.useState<Channel[]>([])
     const [selectedDateRange, setSelectedDateRange] = React.useState<DateRange>()
+
+    const [isLoading, setIsLoading] = React.useState<boolean>(true)
 
     const filters = {
         channels: selectedChannels,
@@ -35,7 +38,7 @@ const RankingComentarios: React.FC = () => {
 
     async function getExportData(data: Comment[]): Promise<any[]> {
 
-        const exportData = JSON.parse(JSON.stringify(data)) 
+        const exportData = JSON.parse(JSON.stringify(data))
 
         exportData.map((item: any) => {
             return {
@@ -66,6 +69,7 @@ const RankingComentarios: React.FC = () => {
                 await getExportData(data).then(d => setExportData(d))
                 getData(data).then(d => setData(d))
             })
+            .finally(() => setIsLoading(false))
 
         return () => {
             setData([])
@@ -78,10 +82,7 @@ const RankingComentarios: React.FC = () => {
     return (
         <div className='w-full container pb-12'>
             <div className="w-full py-8 flex justify-between items-center">
-                <Link href='/' className="flex gap-2 items-center">
-                    <ChevronLeft className='h-6 w-6 text-primary' />
-                    <h1 className='text-xl text-primary font-bold'>Ranking de Comentarios</h1>
-                </Link>
+                <Breadcrumb title="Ranking dos Comentários" />
 
                 <div>
                     <Button
@@ -107,7 +108,9 @@ const RankingComentarios: React.FC = () => {
                     setSelectedDateRange={setSelectedDateRange}
                     columns={columns}
                     data={data}
+                    isLoading={isLoading}
                 />
+
             </div>
 
         </div>

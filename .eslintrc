@@ -1,0 +1,149 @@
+{
+  "parser": "@typescript-eslint/parser",
+  "extends": [
+    "plugin:@typescript-eslint/recommended",
+    "plugin:import/typescript"
+  ],
+  "rules": {
+    "@typescript-eslint/naming-convention": [
+      "error",
+      {
+        "selector": "default",
+        "format": [
+          "camelCase"
+        ]
+      },
+      {
+        "selector": "variableLike",
+        "format": [
+          "camelCase"
+        ]
+      },
+      {
+        "selector": "variable",
+        "format": [
+          "camelCase",
+          "UPPER_CASE",
+          "PascalCase"
+        ]
+      },
+      {
+        "selector": "variable",
+        "types": [
+          "boolean"
+        ],
+        "format": [
+          "PascalCase"
+        ],
+        "prefix": [
+          "is",
+          "should",
+          "has",
+          "can",
+          "did",
+          "will"
+        ]
+      },
+      {
+        "selector": "parameter",
+        "format": [
+          "camelCase"
+        ],
+        "leadingUnderscore": "allow"
+      },
+      {
+        "selector": "enumMember",
+        "format": [
+          "UPPER_CASE"
+        ]
+      },
+      {
+        "selector": "memberLike",
+        "format": [
+          "camelCase"
+        ]
+      },
+      {
+        "selector": "memberLike",
+        "modifiers": [
+          "private"
+        ],
+        "format": [
+          "camelCase"
+        ],
+        "leadingUnderscore": "require"
+      },
+      {
+        "selector": "typeLike",
+        "format": [
+          "PascalCase"
+        ]
+      },
+      {
+        "selector": "typeLike",
+        "format": [
+          "PascalCase"
+        ]
+      },
+      {
+        "selector": "interface",
+        "format": [
+          "PascalCase"
+        ],
+        "custom": {
+          "regex": "^I[A-Za-z]",
+          "match": true
+        }
+      },
+      {
+        "selector": "typeParameter",
+        "format": [
+          "PascalCase"
+        ],
+        "prefix": [
+          "T"
+        ]
+      }
+    ],
+    "import/prefer-default-export": 0,
+    "import/extensions": 0,
+    "import/named": 0,
+    "import/no-named-as-default": 0,
+    "import/no-named-as-default-member": 0,
+    "import/order": [
+      "error",
+      {
+        "groups": [
+          "builtin",
+          "external",
+          "internal",
+          [
+            "parent",
+            "sibling"
+          ],
+          "index"
+        ],
+        "newlines-between": "always",
+        "alphabetize": {
+          "order": "asc",
+          "caseInsensitive": true
+        }
+      }
+    ],
+    "settings": {
+      "import/resolver": {
+        "node": {
+          "extensions": [
+            ".js",
+            ".ts",
+            ".jsx",
+            ".tsx"
+          ],
+          "paths": [
+            "src"
+          ]
+        }
+      }
+    }
+  }
+}

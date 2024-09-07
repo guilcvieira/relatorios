@@ -28,16 +28,18 @@ import { DataTablePagination } from "@/components/ui/table-pagination"
 import { Channel } from "@/types"
 import { DateRange } from "react-day-picker"
 import { DataTableFilters } from "./data-table-filters"
+import DataTableLoading from "./data-table-loading"
 
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[]
     data: TData[]
     selectedChannels?: Channel[]
-    setSelectedChannels?: (channels: Channel[]) => void 
+    setSelectedChannels?: (channels: Channel[]) => void
     selectedDateRange?: DateRange
     setSelectedDateRange?: (dateRange: DateRange) => void
     filterBy: string
     filters?: any
+    isLoading?: boolean
 }
 
 export const DataTable: React.FC<DataTableProps<any, any>> = ({
@@ -48,7 +50,8 @@ export const DataTable: React.FC<DataTableProps<any, any>> = ({
     selectedDateRange,
     setSelectedDateRange,
     filterBy,
-    filters = {}
+    filters = {},
+    isLoading = true
 }) => {
 
     const [sorting, setSorting] = React.useState<SortingState>([])
@@ -89,54 +92,63 @@ export const DataTable: React.FC<DataTableProps<any, any>> = ({
                 />
             </div>
 
-            <div className="w-full border border-border rounded-md overflow-hidden">
-                <Table>
-                    <TableHeader className="px-4">
-                        {table.getHeaderGroups().map((headerGroup) => (
-                            <TableRow key={headerGroup.id} className="h-16 bg-primary hover:bg-primary">
-                                {headerGroup.headers.map(header => (
-                                    <TableHead key={header.id} className="text-primary-foreground font-semibold px-4">
-                                        {header.isPlaceholder
-                                            ? null
-                                            : flexRender(
-                                                header.column.columnDef.header,
-                                                header.getContext()
-                                            )
-                                        }
-                                    </TableHead>
+            {isLoading
+                ? (
+                    <DataTableLoading message="Carregando dados..." isLoading={isLoading} />
+                )
+                : (
+                    <div className="w-full border border-border rounded-md overflow-hidden">
+                        <Table>
+                            <TableHeader className="px-4">
+                                {table.getHeaderGroups().map((headerGroup) => (
+                                    <TableRow key={headerGroup.id} className="h-16 bg-primary hover:bg-primary">
+                                        {headerGroup.headers.map(header => (
+                                            <TableHead key={header.id} className="text-primary-foreground font-semibold px-4">
+                                                {header.isPlaceholder
+                                                    ? null
+                                                    : flexRender(
+                                                        header.column.columnDef.header,
+                                                        header.getContext()
+                                                    )
+                                                }
+                                            </TableHead>
+                                        ))}
+                                    </TableRow>
                                 ))}
-                            </TableRow>
-                        ))}
-                    </TableHeader>
+                            </TableHeader>
 
-                    <TableBody>
-                        {table.getRowModel().rows?.length ? (
-                            table.getRowModel().rows.map(row => (
-                                <TableRow key={row.id} data-state={row.getIsSelected() && "selected"} className="h-14">
-                                    {row.getVisibleCells().map(cell => (
-                                        <TableCell key={cell.id} className="px-4">
-                                            {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                            <TableBody>
+                                {table.getRowModel().rows?.length ? (
+                                    table.getRowModel().rows.map(row => (
+                                        <TableRow key={row.id} data-state={row.getIsSelected() && "selected"} className="h-14">
+                                            {row.getVisibleCells().map(cell => (
+                                                <TableCell key={cell.id} className="px-4">
+                                                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                                                </TableCell>
+                                            ))}
+                                        </TableRow>
+                                    ))
+                                ) : (
+                                    <TableRow>
+                                        <TableCell colSpan={columns.length} className="h-24 text-center">
+                                            Nenhum registro encontrado
                                         </TableCell>
-                                    ))}
+                                    </TableRow>
+                                )}
+                            </TableBody>
+                            <TableFooter>
+                                <TableRow>
+                                    <TableCell colSpan={columns.length} className="h-16">
+                                        <DataTablePagination table={table} />
+                                    </TableCell>
                                 </TableRow>
-                            ))
-                        ) : (
-                            <TableRow>
-                                <TableCell colSpan={columns.length} className="h-24 text-center">
-                                    Nenhum registro encontrado
-                                </TableCell>
-                            </TableRow>
-                        )}
-                    </TableBody>
-                    <TableFooter>
-                        <TableRow>
-                            <TableCell colSpan={columns.length} className="h-16">
-                                <DataTablePagination table={table} />
-                            </TableCell>
-                        </TableRow>
-                    </TableFooter>
-                </Table>
-            </div>
+                            </TableFooter>
+                        </Table>
+                    </div>
+                )
+            }
+
+
         </div>
     )
 }

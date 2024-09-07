@@ -1,6 +1,7 @@
-import { channels } from "@/app/ranking-comentarios/channels";
-import { Channel } from "@/types";
+
 import React from "react";
+import { channels } from "@/app/ranking-dos-comentarios/channels";
+import { Channel } from "@/types";
 import { DateRange } from "react-day-picker";
 import { DataRangePicker } from "./data-range-picker";
 import { ChannelButton } from "./ui/channel-button";
