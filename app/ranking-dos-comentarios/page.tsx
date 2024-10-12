@@ -12,6 +12,7 @@ import { DataTable } from '../../components/data-table'
 import { channels } from './channels'
 import { columns } from './columns'
 import Breadcrumb from '@/components/breadcrumb'
+import ExportButton from '@/components/export-button'
 
 const RankingComentarios: React.FC = () => {
     const [data, setData] = React.useState<Comment[]>([])
@@ -77,25 +78,12 @@ const RankingComentarios: React.FC = () => {
         }
     }, [])
 
-    const { exportCSV, loading, error } = useCSV(exportData, 'ranking-comentarios')
-
     return (
         <div className='w-full container pb-12'>
             <div className="w-full py-8 flex justify-between items-center">
                 <Breadcrumb title="Ranking dos Comentários" />
 
-                <div>
-                    <Button
-                        variant='default'
-                        className='bg-primary'
-                        disabled={loading}
-                        onClick={exportCSV}
-                    >
-                        {loading ? 'Exportando...' : 'Exportar CSV'}
-                    </Button>
-                    {error && <p className='text-red-500 text-sm'>{error}</p>}
-                </div>
-
+                <ExportButton exportData={exportData} fileName='ranking-comentarios' />
             </div>
 
             <div className="w-full">

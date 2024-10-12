@@ -24,7 +24,7 @@ export function useCSV(data: any, filename: string) {
             // Cria um link temporário para download
             const link = document.createElement('a')
             link.href = url
-            link.setAttribute('download', `${filename}.csv`)
+            link.setAttribute('download', `${filename}.xlsx`)
 
             // Clica no link para iniciar o download
             document.body.appendChild(link)

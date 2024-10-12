@@ -8,32 +8,30 @@ import React from 'react'
 import { DateRange } from 'react-day-picker'
 import { channels } from '../ranking-dos-comentarios/channels'
 
-import { DropdownMenuCheckboxItemProps } from '@radix-ui/react-dropdown-menu'
+import { NotFoundCard } from '@/components/not-found-card'
 import UnitiesSelectBox from '@/components/unities-select-box'
 import { QuestionMarkCircledIcon } from '@radix-ui/react-icons'
 import { CopyIcon } from 'lucide-react'
-import { NotFoundCard } from '@/components/not-found-card'
+import ComunicadosChart from '@/components/comunicados-chart'
 
-type Checked = DropdownMenuCheckboxItemProps["checked"]
+
+const unities = [
+    "Unidade 1",
+    "Unidade 2",
+    "Unidade 3",
+    "Unidade 4",
+    "Unidade 5",
+    "Unidade 6",
+    "Unidade 7",
+    "Unidade 8",
+    "Unidade 9",
+    "Unidade 10",
+]
 
 const DesempenhoComunicadosPage: React.FC = () => {
     const [selectDateRange, setSelectDateRange] = React.useState<DateRange>()
     const [selectedChannels, setSelectedChannels] = React.useState<Channel[]>([])
 
-    const [showPanel, setShowPanel] = React.useState<Checked>(false)
-
-    const unities = [
-        "Unidade 1",
-        "Unidade 2",
-        "Unidade 3",
-        "Unidade 4",
-        "Unidade 5",
-        "Unidade 6",
-        "Unidade 7",
-        "Unidade 8",
-        "Unidade 9",
-        "Unidade 10",
-    ]
     const [selectedUnities, setSelectedUnities] = React.useState<Array<string>>([])
 
     const toggleChannel = (channel: Channel) => {
@@ -104,7 +102,6 @@ const DesempenhoComunicadosPage: React.FC = () => {
 
                         <div className='flex flex-col gap-4'>
 
-
                             <div className="w-full flex items-center justify-between">
                                 <h3 className="text-muted-foreground font-semibold">
                                     Comunicados por canal
@@ -115,7 +112,10 @@ const DesempenhoComunicadosPage: React.FC = () => {
                                 </button>
                             </div>
 
-                            <NotFoundCard />
+                            <div className="grid">
+                                <ComunicadosChart />
+                            </div>
+                            {/* <NotFoundCard /> */}
                         </div>
 
                         <div className="flex flex-col gap-4">
@@ -139,6 +139,7 @@ const DesempenhoComunicadosPage: React.FC = () => {
                         <h3 className="text-muted-foreground font-semibold">
                             Reações
                         </h3>
+
                         <NotFoundCard />
                     </div>
 

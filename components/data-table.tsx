@@ -6,6 +6,7 @@ import {
     ColumnDef,
     ColumnFilter,
     SortingState,
+    VisibilityState,
     flexRender,
     getCoreRowModel,
     getFilteredRowModel,
@@ -56,6 +57,7 @@ export const DataTable: React.FC<DataTableProps<any, any>> = ({
 
     const [sorting, setSorting] = React.useState<SortingState>([])
     const [columnFilters, setColumnFilters] = React.useState<ColumnFilter[]>([])
+    const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({})
 
     const table = useReactTable({
         data,
@@ -65,9 +67,11 @@ export const DataTable: React.FC<DataTableProps<any, any>> = ({
         getSortedRowModel: getSortedRowModel(),
         onColumnFiltersChange: setColumnFilters,
         getFilteredRowModel: getFilteredRowModel(),
+        onColumnVisibilityChange: setColumnVisibility,
         state: {
             sorting,
-            columnFilters
+            columnFilters,
+            columnVisibility
         },
         getPaginationRowModel: getPaginationRowModel()
     })
@@ -89,6 +93,7 @@ export const DataTable: React.FC<DataTableProps<any, any>> = ({
                     setSelectedChannels={setSelectedChannels}
                     selectedDateRange={selectedDateRange}
                     setSelectedDateRange={setSelectedDateRange}
+
                 />
             </div>
 

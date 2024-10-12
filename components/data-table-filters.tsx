@@ -7,6 +7,14 @@ import { DataRangePicker } from "./data-range-picker";
 import { ChannelButton } from "./ui/channel-button";
 import { Input } from "./ui/input";
 
+import {
+    DropdownMenu,
+    DropdownMenuCheckboxItem,
+    DropdownMenuContent,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import { Button } from "./ui/button";
+
 export type DataTableFiltersProps = {
     table: any
     filterBy: string
@@ -48,6 +56,36 @@ export const DataTableFilters: React.FC<DataTableFiltersProps> = ({
                     onChange={event => table.getColumn(filterBy)?.setFilterValue(event.target.value)}
                     className="w-[500px]"
                 />
+            </div>
+            <div className="items-center self-end">
+                <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                        <Button variant="outline" className="ml-auto">
+                            Colunas
+                        </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end">
+                        {table
+                            .getAllColumns()
+                            .filter(
+                                (column: any) => column.getCanHide()
+                            )
+                            .map((column: any) => {
+                                return (
+                                    <DropdownMenuCheckboxItem
+                                        key={column.id}
+                                        className="capitalize"
+                                        checked={column.getIsVisible()}
+                                        onCheckedChange={(value) =>
+                                            column.toggleVisibility(!!value)
+                                        }
+                                    >
+                                        {column.id}
+                                    </DropdownMenuCheckboxItem>
+                                )
+                            })}
+                    </DropdownMenuContent>
+                </DropdownMenu>
             </div>
             <div className="flex justify-end items-center gap-4">
                 <DataRangePicker
