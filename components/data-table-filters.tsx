@@ -1,5 +1,5 @@
 
-import React from "react";
+import React, { useEffect } from "react";
 import { channels } from "@/app/ranking-dos-comentarios/channels";
 import { Channel } from "@/types";
 import { DateRange } from "react-day-picker";
@@ -34,6 +34,17 @@ export const DataTableFilters: React.FC<DataTableFiltersProps> = ({
     setSelectedDateRange,
     filterAlias,
 }) => {
+
+    const generateJSONFromTable = (table: any) => {
+        console.log(table.getHeaderGroups())
+        const headers = table.getHeaderGroups()[0].headers
+        const headerColumns = headers.map((header: any) => header.column.columnDef.header)
+        console.log("headers", headerColumns)
+    }
+
+    useEffect(() => {
+        generateJSONFromTable(table)
+    }, [table])
 
     const toggleChannel = (channel: Channel) => {
         if (selectedChannels) {
