@@ -43,7 +43,7 @@ const RankingComentarios: React.FC = () => {
 
         exportData.map((item: any) => {
             return {
-                'Código': item.com_codigo,
+                'Cód': item.com_codigo,
                 'Comunicado': item.com_titulo,
                 'Comentário': item.cmt_titulo,
                 'Data': item.cmt_data_comentario,

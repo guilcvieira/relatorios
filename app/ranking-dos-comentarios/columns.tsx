@@ -8,6 +8,11 @@ import { ArrowUpDown } from "lucide-react"
 
 export const columns: ColumnDef<Comment>[] = [
     {
+        header: 'Cod',
+        accessorKey: 'com_codigo',
+        enableHiding: false,
+    },
+    {
         header: 'Comunicado',
         accessorKey: 'com_titulo',
     },
@@ -17,14 +22,15 @@ export const columns: ColumnDef<Comment>[] = [
     },
     {
         accessorKey: 'cmt_data_comentario',
+
         cell: ({ cell }) => (
-            <span className="text-center w-full">
+            <span className="block text-center w-full">
                 {formatDateWithoutTimezone(cell.getValue() as string)}
             </span>
         ),
         header: ({ column }) => (
             <Button
-                className="-ml-4"
+                className="text-center w-full flex"
                 variant="ghost"
                 onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
             >
