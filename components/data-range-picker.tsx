@@ -21,14 +21,9 @@ import {
     SelectValue,
 } from "@/components/ui/select"
 import { cn } from "@/lib/utils"
+import { IDataRangePickerProps } from "@/types"
 
-export interface DataRangePickerProps extends React.HtmlHTMLAttributes<HTMLDivElement> {
-    className?: string
-    selectedDateRange?: DateRange
-    setSelectedDateRange?: (dateRange: DateRange) => void
-}
-
-export const DataRangePicker: React.FC<DataRangePickerProps> = ({ className, selectedDateRange, setSelectedDateRange }) => {
+export const DataRangePicker: React.FC<IDataRangePickerProps> = ({ className, selectedDateRange, setSelectedDateRange }) => {
     const [date, setDate] = React.useState<DateRange | undefined>({
         from: undefined,
         to: undefined
@@ -55,7 +50,7 @@ export const DataRangePicker: React.FC<DataRangePickerProps> = ({ className, sel
                         {
                             date && date?.from && <span className="font-semibold">Periodo - &nbsp;</span>
                         }
-                        
+
                         {date && date?.from ? (
                             date.to ? (
                                 <>
@@ -83,7 +78,7 @@ export const DataRangePicker: React.FC<DataRangePickerProps> = ({ className, sel
                             }}
                         >
                             <SelectTrigger className={cn("rounded-md border border-border")}>
-                                <SelectValue  placeholder="Selecionar Período" />
+                                <SelectValue placeholder="Selecionar Período" />
                             </SelectTrigger>
                             <SelectContent position="popper">
                                 <SelectItem value="0">Hoje</SelectItem>

@@ -2,7 +2,7 @@ import ReportsBlock, { IReport } from "@/components/reports/reports-block";
 import { Cast, ChartPie, MessageSquare, Users } from "lucide-react";
 import React from "react";
 
-const reports: IReport[] = [
+const announcemennts: IReport[] = [
   {
     title: "Desempenho dos Comunicados",
     type: "visao-geral",
@@ -34,7 +34,7 @@ const reports: IReport[] = [
 const Home: React.FC = () => {
   return (
     <div className="w-full container">
-      <ReportsBlock title="Comunicados" description="Dados e informações mais relevantes dos comunicados" reports={reports} />
+      <ReportsBlock title="Comunicados" description="Dados e informações mais relevantes dos comunicados" reports={announcemennts} />
     </div>
   )
 }
