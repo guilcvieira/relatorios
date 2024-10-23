@@ -19,8 +19,8 @@ const ReportsItem: React.FC<ReportsItemProps> = async ({ report }) => {
         <Link href={`/${getLink()}`}>
             <div className="
                 flex flex-col justify-between
-                w-44 h-36 p-2 bg-background 
-                rounded-sm shadow-sm border border-border 
+                w-44 h-full p-2 bg-background 
+                rounded shadow border border-border 
                 hover:bg-primary group transition-all"
             >
                 <div className="flex flex-row justify-between items-center">
@@ -30,7 +30,7 @@ const ReportsItem: React.FC<ReportsItemProps> = async ({ report }) => {
                 <span className="font-bold text-muted-foreground group-hover:text-primary-foreground overflow-hidden">
                     {report.title}
                 </span>
-                <span className="text-right text-xs text-muted group-hover:text-primary-foreground ">
+                <span className="text-right text-xs text-muted-foreground/50 group-hover:text-primary-foreground ">
                     {report.type === "visao-geral" ? "Visão Geral" : "Um a Um"}
                 </span>
             </div>
