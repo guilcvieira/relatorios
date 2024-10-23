@@ -3,16 +3,19 @@
 import Breadcrumb from '@/components/breadcrumb'
 import { DataRangePicker } from '@/components/data-range-picker'
 import { ChannelButton } from '@/components/ui/channel-button'
-import { Channel } from '@/types'
+import { IChannel } from '@/types'
 import React from 'react'
 import { DateRange } from 'react-day-picker'
 import { channels } from '../ranking-dos-comentarios/channels'
 
+import ComunicadosChart from '@/components/comunicados-chart'
 import { NotFoundCard } from '@/components/not-found-card'
 import UnitiesSelectBox from '@/components/unities-select-box'
 import { QuestionMarkCircledIcon } from '@radix-ui/react-icons'
 import { CopyIcon } from 'lucide-react'
-import ComunicadosChart from '@/components/comunicados-chart'
+
+import { comunicadosColumns } from './top10Columns/comunicados'
+import Top10Table from '@/components/top-10-table'
 
 
 const unities = [
@@ -30,11 +33,11 @@ const unities = [
 
 const DesempenhoComunicadosPage: React.FC = () => {
     const [selectDateRange, setSelectDateRange] = React.useState<DateRange>()
-    const [selectedChannels, setSelectedChannels] = React.useState<Channel[]>([])
+    const [selectedChannels, setSelectedChannels] = React.useState<IChannel[]>([])
 
     const [selectedUnities, setSelectedUnities] = React.useState<Array<string>>([])
 
-    const toggleChannel = (channel: Channel) => {
+    const toggleChannel = (channel: IChannel) => {
         if (selectedChannels) {
             if (selectedChannels && setSelectedChannels) {
                 if (selectedChannels.find((ch) => ch.slug === channel.slug)) {
@@ -103,16 +106,40 @@ const DesempenhoComunicadosPage: React.FC = () => {
                         <div className='flex flex-col gap-4'>
 
                             <div className="w-full flex items-center justify-between">
-                                <h3 className="text-muted-foreground font-semibold">
-                                    Comunicados por canal
-                                </h3>
 
-                                <button className="rounded px-3 py-1 border border-border hover:bg-primary hover:text-white transition-colors ">
-                                    <CopyIcon className="w-4 h-4" />
-                                </button>
+
                             </div>
 
-                            <div className="grid">
+                            <div className="flex">
+                                <div className="grid grid-cols-4 items-center justify-center">
+                                    <h3 className="text-lg font-bold">Comunicados por Canal</h3>
+                                    <p className="text-lg text-center uppercase">em</p>
+                                    <p className="text-lg text-center uppercase">mo</p>
+                                    <p className="text-lg text-center uppercase">de</p>
+
+                                    <span>Comunicados</span>
+                                    <span className="text-3xl text-center font-bold py-2">73</span>
+                                    <span className="text-3xl text-center font-bold py-2">34</span>
+                                    <span className="text-3xl text-center font-bold py-2">20</span>
+
+                                    <span>Alcance</span>
+                                    <span className='text-center py-2'>31041</span>
+                                    <span className='text-center py-2'>4</span>
+                                    <span className='text-center py-2'>4</span>
+
+                                    <span>Visualização</span>
+                                    <span className='text-center py-2'>2</span>
+                                    <span className='text-center py-2'>0</span>
+                                    <span className='text-center py-2'>4</span>
+
+                                    <span>Taxa de Visualização</span>
+                                    <span className='text-center py-2'>0%</span>
+                                    <span className='text-center py-2'>0%</span>
+                                    <span className='text-center py-2'>100%</span>
+                                </div>
+                                <button className="rounded px-3 py-1 border border-border hover:bg-primary hover:text-white transition-colors max-h-6">
+                                    <CopyIcon className="w-4 h-4" />
+                                </button>
                                 <ComunicadosChart />
                             </div>
                             {/* <NotFoundCard /> */}
@@ -201,7 +228,19 @@ const DesempenhoComunicadosPage: React.FC = () => {
                         </button>
                     </div>
 
-                    <NotFoundCard />
+                    <Top10Table columns={comunicadosColumns} data={[
+                        {
+                            com_codigo: "1",
+                            com_titulo: "Comunicado 1",
+                            total: "1"
+                        },
+                        {
+                            com_codigo: "2",
+                            com_titulo: "Comunicado 2",
+                            total: "2"
+                        }
+                    ]} />
+                    {/* <NotFoundCard /> */}
                 </div>
 
                 {/* Bloco 6 */}

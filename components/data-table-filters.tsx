@@ -1,25 +1,19 @@
 
-import React, { useEffect } from "react";
 import { channels } from "@/app/ranking-dos-comentarios/channels";
-import { Channel } from "@/types";
+import { IChannel } from "@/types";
+import React, { useEffect } from "react";
 import { DateRange } from "react-day-picker";
 import { DataRangePicker } from "./data-range-picker";
 import { ChannelButton } from "./ui/channel-button";
 import { Input } from "./ui/input";
 
-import {
-    DropdownMenu,
-    DropdownMenuCheckboxItem,
-    DropdownMenuContent,
-    DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { Button } from "./ui/button";
+import DataTableColumnsSelector from "./data-table-columns-selector";
 
 export type DataTableFiltersProps = {
     table: any
     filterBy: string
-    selectedChannels?: Channel[]
-    setSelectedChannels?: (channels: Channel[]) => void
+    selectedChannels?: IChannel[]
+    setSelectedChannels?: (channels: IChannel[]) => void
     selectedDateRange?: DateRange
     setSelectedDateRange?: (dateRange: DateRange) => void
     filterAlias: string
@@ -46,7 +40,7 @@ export const DataTableFilters: React.FC<DataTableFiltersProps> = ({
         generateJSONFromTable(table)
     }, [table])
 
-    const toggleChannel = (channel: Channel) => {
+    const toggleChannel = (channel: IChannel) => {
         if (selectedChannels) {
             if (selectedChannels && setSelectedChannels) {
                 if (selectedChannels.find((ch) => ch.slug === channel.slug)) {
@@ -58,6 +52,8 @@ export const DataTableFilters: React.FC<DataTableFiltersProps> = ({
         }
     }
 
+    console.log(filterAlias)
+
     return (
         <div className="flex flex-row justify-between items-center py-2 bg-transparent">
             <div className="flex items-center">
@@ -68,37 +64,11 @@ export const DataTableFilters: React.FC<DataTableFiltersProps> = ({
                     className="w-[500px]"
                 />
             </div>
-            <div className="items-center self-end">
-                <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                        <Button variant="outline" className="ml-auto">
-                            Colunas
-                        </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                        {table
-                            .getAllColumns()
-                            .filter(
-                                (column: any) => column.getCanHide()
-                            )
-                            .map((column: any) => {
-                                return (
-                                    <DropdownMenuCheckboxItem
-                                        key={column.id}
-                                        className="capitalize"
-                                        checked={column.getIsVisible()}
-                                        onCheckedChange={(value) =>
-                                            column.toggleVisibility(!!value)
-                                        }
-                                    >
-                                        {column.id}
-                                    </DropdownMenuCheckboxItem>
-                                )
-                            })}
-                    </DropdownMenuContent>
-                </DropdownMenu>
-            </div>
+
             <div className="flex justify-end items-center gap-4">
+
+                <DataTableColumnsSelector table={table} />
+
                 <DataRangePicker
                     selectedDateRange={selectedDateRange}
                     setSelectedDateRange={setSelectedDateRange}
@@ -113,8 +83,7 @@ export const DataTableFilters: React.FC<DataTableFiltersProps> = ({
                         >
                             {channel.slug}
                         </ChannelButton>
-                    )
-                    )}
+                    ))}
                 </div>
             </div>
 

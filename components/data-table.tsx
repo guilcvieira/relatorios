@@ -26,7 +26,7 @@ import {
 } from "@/components/ui/table"
 
 import { DataTablePagination } from "@/components/ui/table-pagination"
-import { Channel } from "@/types"
+import { IChannel } from "@/types"
 import { DateRange } from "react-day-picker"
 import { DataTableFilters } from "./data-table-filters"
 import DataTableLoading from "./data-table-loading"
@@ -34,11 +34,12 @@ import DataTableLoading from "./data-table-loading"
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[]
     data: TData[]
-    selectedChannels?: Channel[]
-    setSelectedChannels?: (channels: Channel[]) => void
+    type: string
+    selectedChannels?: IChannel[]
+    setSelectedChannels?: (channels: IChannel[]) => void
     selectedDateRange?: DateRange
     setSelectedDateRange?: (dateRange: DateRange) => void
-    filterBy: string
+    filterBy?: string
     filters?: any
     isLoading?: boolean
 }
@@ -51,6 +52,7 @@ export const DataTable: React.FC<DataTableProps<any, any>> = ({
     selectedDateRange,
     setSelectedDateRange,
     filterBy,
+    type,
     filters = {},
     isLoading = true
 }) => {
@@ -78,24 +80,26 @@ export const DataTable: React.FC<DataTableProps<any, any>> = ({
 
     const getFilterHeaderFromAccessor = (accessorKey: string) => {
         const column = table.getColumn(accessorKey)
-        return column?.columnDef.header as string
+        return column?.columnDef.id as string
     }
 
     return (
         <div>
+            {filterBy && (
+                <div className="mb-2">
+                    <DataTableFilters
+                        filterBy={filterBy}
+                        filterAlias={getFilterHeaderFromAccessor(filterBy)}
+                        table={table}
+                        selectedChannels={selectedChannels}
+                        setSelectedChannels={setSelectedChannels}
+                        selectedDateRange={selectedDateRange}
+                        setSelectedDateRange={setSelectedDateRange}
 
-            <div className="mb-2">
-                <DataTableFilters
-                    filterBy={filterBy}
-                    filterAlias={getFilterHeaderFromAccessor(filterBy)}
-                    table={table}
-                    selectedChannels={selectedChannels}
-                    setSelectedChannels={setSelectedChannels}
-                    selectedDateRange={selectedDateRange}
-                    setSelectedDateRange={setSelectedDateRange}
+                    />
+                </div>
+            )}
 
-                />
-            </div>
 
             {isLoading
                 ? (
@@ -108,7 +112,14 @@ export const DataTable: React.FC<DataTableProps<any, any>> = ({
                                 {table.getHeaderGroups().map((headerGroup) => (
                                     <TableRow key={headerGroup.id} className="h-16 bg-primary hover:bg-primary">
                                         {headerGroup.headers.map(header => (
-                                            <TableHead key={header.id} className="text-primary-foreground font-semibold px-4">
+                                            <TableHead
+                                                key={header.id}
+                                                className="text-primary-foreground font-semibold px-4"
+                                                style={{
+                                                    minWidth: header.column.columnDef.size,
+                                                    maxWidth: header.column.columnDef.size,
+                                                }}
+                                            >
                                                 {header.isPlaceholder
                                                     ? null
                                                     : flexRender(
@@ -127,7 +138,16 @@ export const DataTable: React.FC<DataTableProps<any, any>> = ({
                                     table.getRowModel().rows.map(row => (
                                         <TableRow key={row.id} data-state={row.getIsSelected() && "selected"} className="h-14">
                                             {row.getVisibleCells().map(cell => (
-                                                <TableCell key={cell.id} className="px-4">
+                                                <TableCell
+                                                    key={cell.id}
+                                                    className="px-4"
+                                                    style={{
+                                                        minWidth: cell.column.columnDef.size,
+                                                        maxWidth: cell.column.columnDef.size,
+
+                                                        backgroundColor: cell.column.id.includes('codigo') ? "#F5F5F5" : "#FFF"
+                                                    }}
+                                                >
                                                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                                                 </TableCell>
                                             ))}
@@ -141,13 +161,16 @@ export const DataTable: React.FC<DataTableProps<any, any>> = ({
                                     </TableRow>
                                 )}
                             </TableBody>
-                            <TableFooter>
-                                <TableRow>
-                                    <TableCell colSpan={columns.length} className="h-16">
-                                        <DataTablePagination table={table} />
-                                    </TableCell>
-                                </TableRow>
-                            </TableFooter>
+                            {type !== 'top10' && (
+                                <TableFooter>
+                                    <TableRow>
+                                        <TableCell colSpan={columns.length} className="h-16">
+                                            <DataTablePagination table={table} />
+                                        </TableCell>
+                                    </TableRow>
+                                </TableFooter>
+                            )}
+
                         </Table>
                     </div>
                 )
