@@ -1,6 +1,6 @@
-import { Channel } from "@/types";
+import { IChannel } from "@/types";
 
-export const channels: Channel[] = [
+export const channels: IChannel[] = [
     {
         slug: 'MO',
         name: 'Mobile'

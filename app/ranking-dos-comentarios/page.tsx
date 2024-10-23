@@ -1,24 +1,20 @@
 'use client'
 
-import { Button } from '@/components/ui/button'
-import { useCSV } from '@/hooks/useCSV'
+import Breadcrumb from '@/components/breadcrumb'
+import ExportButton from '@/components/export-button'
 import { fetchRankingComentarios } from '@/services/rankings'
-import { Channel, Comment } from '@/types'
-import { ChevronLeft } from 'lucide-react'
-import Link from 'next/link'
-import React, { Suspense } from 'react'
+import { Comment, IChannel } from '@/types'
+import React, { useEffect } from 'react'
 import { DateRange } from 'react-day-picker'
 import { DataTable } from '../../components/data-table'
 import { channels } from './channels'
 import { columns } from './columns'
-import Breadcrumb from '@/components/breadcrumb'
-import ExportButton from '@/components/export-button'
 
 const RankingComentarios: React.FC = () => {
     const [data, setData] = React.useState<Comment[]>([])
     const [exportData, setExportData] = React.useState<Comment[]>([])
 
-    const [selectedChannels, setSelectedChannels] = React.useState<Channel[]>([])
+    const [selectedChannels, setSelectedChannels] = React.useState<IChannel[]>([])
     const [selectedDateRange, setSelectedDateRange] = React.useState<DateRange>()
 
     const [isLoading, setIsLoading] = React.useState<boolean>(true)
@@ -43,7 +39,7 @@ const RankingComentarios: React.FC = () => {
 
         exportData.map((item: any) => {
             return {
-                'Cód': item.com_codigo,
+                'Código': item.com_codigo,
                 'Comunicado': item.com_titulo,
                 'Comentário': item.cmt_titulo,
                 'Data': item.cmt_data_comentario,
@@ -54,7 +50,7 @@ const RankingComentarios: React.FC = () => {
         return exportData
     }
 
-    React.useEffect(() => {
+    useEffect(() => {
         //Seleciona todos os canais por padrão
         setSelectedChannels(channels)
 
@@ -63,7 +59,7 @@ const RankingComentarios: React.FC = () => {
         }
     }, [])
 
-    React.useEffect(() => {
+    useEffect(() => {
         fetchRankingComentarios()
             .then((res: any) => res.json())
             .then(async data => {
@@ -88,7 +84,7 @@ const RankingComentarios: React.FC = () => {
 
             <div className="w-full">
                 <DataTable
-                    filterBy='com_titulo'
+                    filterBy='comunicado'
                     filters={filters}
                     selectedChannels={selectedChannels}
                     setSelectedChannels={setSelectedChannels}
