@@ -30,8 +30,9 @@ export interface IChannel {
 }
 
 export interface IComunicadosChartProps {
-    radius?: number
     chartData?: Array<any>
+    totalComunicados?: number
+    percent?: number
 }
 
 export interface IDataRangePickerProps extends React.HtmlHTMLAttributes<HTMLDivElement> {

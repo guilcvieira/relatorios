@@ -5,28 +5,25 @@ import {
     ChartContainer
 } from "@/components/ui/chart"
 
-import { Pie, PieChart } from 'recharts'
+import { IComunicadosChartProps } from "@/types"
+import { Label, Pie, PieChart, PieLabelRenderProps } from 'recharts'
+
 
 const RADIAN = Math.PI / 180
 
-interface ComunicadosChartProps {
-    radius?: number
-    chartData?: Array<any>
-}
-
 const defaultChartData = [
     {
-        channel: "Desktop",
+        channel: "50",
         comunicados: 50,
         fill: "var(--color-desktop)",
     },
     {
-        channel: "Mobile",
+        channel: "20",
         comunicados: 20,
         fill: "var(--color-mobile)",
     },
     {
-        channel: "TV",
+        channel: "30",
         comunicados: 30,
         fill: "var(--color-tv)",
     },
@@ -54,15 +51,24 @@ const chartConfig: ChartConfig = {
     }
 } satisfies ChartConfig
 
-const ComunicadosChart: React.FC<ComunicadosChartProps> = ({
+
+const ComunicadosChart: React.FC<IComunicadosChartProps> = ({
     chartData = defaultChartData,
-    radius = 270
+    totalComunicados = 94035,
+    percent = 80
 }) => {
-    const cx = 70
-    const cy = 70
-    const iR = 40
-    const oR = 60
-    const value = 80
+
+    const size = 200
+
+    const oR = size / 2
+    const iR = oR * 0.75
+
+    const cx = size / 1.9
+    const cy = size / 1.7
+
+
+    const value = percent
+
 
     const needle = (
         value: number,
@@ -137,10 +143,30 @@ const ComunicadosChart: React.FC<ComunicadosChartProps> = ({
         ]
     }
 
+    const CustomLabel = ({ cx = 0, cy = 0, outerRadius, endAngle = 0, value }: PieLabelRenderProps) => {
+        const distance = 5 // Valor extra para afastar o label do gráfico
+        const radius = Number(outerRadius) + distance // Aumenta o raio para criar o afastamento
+        // Calcular a posição na extremidade final do segmento
+        const x = Number(cx) + radius * Math.cos(-endAngle * RADIAN) // Posição x na extremidade final
+        const y = Number(cy) + radius * Math.sin(-endAngle * RADIAN) // Posição y na extremidade final
+
+        return (
+            <text
+                x={x}
+                y={y}
+                fill="hsla(var(--foreground))"
+                textAnchor={x > Number(cx) ? 'start' : 'end'}
+                dominantBaseline="middle"
+            >
+                {value}
+            </text>
+        )
+    }
+
     return (
         <ChartContainer
             config={chartConfig}
-            className='max-h-[150px]'
+            className="mx-auto aspect-square max-h-[250px]"
         >
             <PieChart>
                 <Pie
@@ -154,8 +180,51 @@ const ComunicadosChart: React.FC<ComunicadosChartProps> = ({
                     innerRadius={iR}
                     outerRadius={oR}
                     strokeWidth={5}
-                />
-                Teste
+                    labelLine={false}
+                    label={({ cx, cy, outerRadius, endAngle, payload, ...rest }) => (
+                        <CustomLabel
+                            cx={cx}
+                            cy={cy}
+                            outerRadius={outerRadius}
+                            endAngle={endAngle}
+                            value={payload.comunicados}
+                            {...rest}
+                        />
+                    )}
+                >
+                    <Label
+                        content={({ viewBox }) => {
+                            if (viewBox && "cx" in viewBox && "cy" in viewBox) {
+                                return (
+
+                                    <text
+                                        x={viewBox.cx}
+                                        y={viewBox.cy}
+                                        textAnchor="middle"
+                                        dominantBaseline="middle"
+                                    >
+
+                                        <tspan
+                                            x={viewBox.cx}
+                                            y={viewBox.cy}
+                                            className="fill-muted-foreground text-3xl font-bold"
+                                        >
+                                            {totalComunicados.toLocaleString()}
+                                        </tspan>
+                                        <tspan
+                                            x={viewBox.cx}
+                                            y={(viewBox.cy || 0) + 24}
+                                            className="fill-muted-foreground"
+                                        >
+                                            Comunicados
+                                        </tspan>
+                                    </text>
+                                )
+                            }
+                        }}
+                    />
+                </Pie>
+
                 {needle(value, chartData, cx, cy, iR, oR, 'var(--color-primary)')}
             </PieChart>
         </ChartContainer>
