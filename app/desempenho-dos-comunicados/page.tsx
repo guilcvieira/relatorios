@@ -112,15 +112,15 @@ const DesempenhoComunicadosPage: React.FC = () => {
 
                             <div className="flex">
                                 <div className="grid grid-cols-4 items-center justify-center">
-                                    <h3 className="text-lg font-bold">Comunicados por Canal</h3>
-                                    <p className="text-lg text-center uppercase">em</p>
-                                    <p className="text-lg text-center uppercase">mo</p>
-                                    <p className="text-lg text-center uppercase">de</p>
+                                    <h3 className="text-lg text-muted-foreground font-bold">Comunicados por Canal</h3>
+                                    <p className="text-lg text-muted-foreground text-center uppercase">em</p>
+                                    <p className="text-lg text-muted-foreground text-center uppercase">mo</p>
+                                    <p className="text-lg text-muted-foreground text-center uppercase">de</p>
 
                                     <span>Comunicados</span>
-                                    <span className="text-3xl text-center font-bold py-2">73</span>
-                                    <span className="text-3xl text-center font-bold py-2">34</span>
-                                    <span className="text-3xl text-center font-bold py-2">20</span>
+                                    <span className="text-2xl text-center font-bold py-2">73</span>
+                                    <span className="text-2xl text-center font-bold py-2">34</span>
+                                    <span className="text-2xl text-center font-bold py-2">20</span>
 
                                     <span>Alcance</span>
                                     <span className='text-center py-2'>31041</span>
